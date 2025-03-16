@@ -1,0 +1,6 @@
+name: env_projet_NLP
+dependencies:
+  - python=3.12.7
+  - pandas
+  - numpy
+  - scikit-learn
