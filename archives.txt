@@ -1,0 +1,111 @@
+
+
+# PROBLEMES AVEC CETTE FONCTION
+
+def recherche_descripteur3(racine, recherche, type_recherche='nom', ignore_case=True, verbose=False, format_reponse=None, level=None):
+    """
+    PROBLEME : quand je demande level 2 j'ai parfois un numero mesh du type XXX.XXX.XXX donc de niveau 3 --> voir par example Arteriovenous Fistula level 2
+    AVEC : recherche_descripteur3(racine, 'Arteriovenous Fistula', format_reponse='numero_mesh', level=2)
+
+    Recherche un descripteur MeSH dans un arbre XML selon l'identifiant, le nom ou le numéro MeSH.
+
+    Args:
+        racine (xml.etree.ElementTree.Element): La racine de l'arbre XML MeSH.
+        recherche (str): La valeur à rechercher (identifiant, nom ou numéro MeSH).
+        type_recherche (str): Type de recherche :
+            - 'identifiant' : recherche par identifiant MeSH (ex : D012345)
+            - 'nom' : recherche par nom exact du descripteur (ex : 'Asthma')
+            - 'numero_mesh' : recherche par numéro MeSH exact (ex : 'C08.360.480')
+        ignore_case (bool): Si True, la recherche par nom est insensible à la casse.
+        verbose (bool): Si True, affiche un message si aucun résultat n'est trouvé.
+        format_reponse (str, optionnel): Spécifie le format de réponse désiré parmi :
+            - 'identifiant' : retourne uniquement l'identifiant du descripteur
+            - 'nom' : retourne uniquement le nom du descripteur
+            - 'numero_mesh' : retourne uniquement les numéros MeSH associés
+        level (int, optionnel): Si spécifié, retourne la catégorie associée au niveau demandé.
+
+    Returns:
+        dict, str, list, or None:
+            Si format_reponse est spécifié, retourne uniquement la donnée demandée.
+            Si level est spécifié, retourne la catégorie associée au niveau demandé au format demandé.
+            Sinon, retourne un dictionnaire complet du descripteur.
+            Retourne None si aucune correspondance n'est trouvée.
+    """
+
+    formats_valides = ['identifiant', 'nom', 'numero_mesh', None]
+    types_recherche_valides = ['identifiant', 'nom', 'numero_mesh']
+
+    if format_reponse not in formats_valides:
+        raise ValueError(f"format_reponse invalide : '{format_reponse}'. Choisissez parmi : {formats_valides[:-1]}.")
+
+    if type_recherche not in types_recherche_valides:
+        raise ValueError(f"type_recherche invalide : '{type_recherche}'. Choisissez parmi : {types_recherche_valides}.")
+
+    def chercher_descripteur_par_numero(racine, numero):
+        for descripteur in racine.findall('DescriptorRecord'):
+            if numero in [tree_number.text for tree_number in descripteur.findall('TreeNumberList/TreeNumber')]:
+                return {
+                    'identifiant': descripteur.findtext('DescriptorUI'),
+                    'nom': descripteur.findtext('DescriptorName/String'),
+                    'numero_mesh': [tree_number.text for tree_number in descripteur.findall('TreeNumberList/TreeNumber')]
+                }
+        return None
+
+    def categorie_haute(racine, numero_mesh, level):
+        categories_lettres = {
+            "A": "Anatomy", "B": "Organisms", "C": "Diseases", "D": "Chemicals and Drugs",
+            "E": "Analytical, Diagnostic and Therapeutic Techniques, and Equipment",
+            "F": "Psychiatry and Psychology", "G": "Phenomena and Processes",
+            "H": "Disciplines and Occupations", "I": "Anthropology, Education, Sociology, and Social Phenomena",
+            "J": "Technology, Industry, and Agriculture", "K": "Humanities",
+            "L": "Information Science", "M": "Named Groups", "N": "Health Care",
+            "V": "Publication Characteristics", "Z": "Geographicals"
+        }
+
+        niveaux = numero_mesh[0].split('.')
+        niveau_max = len(niveaux)
+
+        if level == 0:
+            categorie = categories_lettres.get(niveaux[0].upper())
+            return {'identifiant': None, 'nom': categorie, 'numero_mesh': [niveaux[0]]}
+
+        if level > niveau_max:
+            if verbose:
+                print(f"Le niveau spécifié ({level}) est trop élevé. Le niveau maximal possible pour '{numero_mesh}' est {niveau_max}.")
+            return None
+
+        numero_recherche = '.'.join(niveaux[:level])
+        resultat = chercher_descripteur_par_numero(racine, numero_recherche)
+
+        if resultat is None:
+            if verbose:
+                print(f"Aucune catégorie trouvée pour le numéro {numero_recherche} au niveau {level}.")
+            return None
+
+        return resultat if format_reponse is None else resultat[format_reponse]
+
+    for descripteur in racine.findall('DescriptorRecord'):
+        ui = descripteur.findtext('DescriptorUI')
+        nom = descripteur.findtext('DescriptorName/String')
+        numero_mesh = [tree_number.text for tree_number in descripteur.findall('TreeNumberList/TreeNumber')]
+
+        correspondance = False
+        if type_recherche == 'identifiant' and ui == recherche:
+            correspondance = True
+        elif type_recherche == 'nom':
+            if (ignore_case and nom.lower() == recherche.lower()) or (not ignore_case and nom == recherche):
+                correspondance = True
+        elif type_recherche == 'numero_mesh' and recherche in numero_mesh:
+            correspondance = True
+
+        if correspondance:
+            if level is not None:
+                return categorie_haute(racine, numero_mesh, level)
+
+            reponse_complete = {'identifiant': ui, 'nom': nom, 'numero_mesh': numero_mesh}
+            return reponse_complete if format_reponse is None else reponse_complete[format_reponse]
+
+    if verbose:
+        print(f"Aucun descripteur trouvé pour '{recherche}' avec type '{type_recherche}'.")
+
+    return None

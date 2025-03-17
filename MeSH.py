@@ -1,9 +1,26 @@
 from collections import defaultdict
 from typing import List, Dict, Set
+import xml.etree.ElementTree as ET
+
 
 # MeSH.py
 def Hello():
     return "Hello from MeSH!"
+
+
+# Fonction pour analyser un fichier XML
+def chargement_arbre_mesh(chemin):
+    try:
+        arbre = ET.parse(chemin)
+        racine = arbre.getroot()
+        print(f"Fichier XML analysé avec succès : {chemin}")
+        return racine
+    except ET.ParseError as e:
+        print(f"Erreur lors de l'analyse du fichier XML : {e}")
+    except FileNotFoundError:
+        print(f"Le fichier spécifié est introuvable : {chemin}")
+    except Exception as e:
+        print(f"Une erreur inattendue s'est produite : {e}")
 
 
 def list_to_dict(mesh_list: List[str]) -> Dict[str, Set[str]]:
@@ -32,87 +49,131 @@ def list_to_dict(mesh_list: List[str]) -> Dict[str, Set[str]]:
     return dict(mesh_dict)
 
 
-def recherche_descripteur(racine, recherche, type_recherche='nom'):
+def recherche_descripteur(racine, recherche, type_recherche='nom', ignore_case=True, verbose=False, format_reponse=None):
     """
-    Recherche un descripteur MeSH dans un arbre XML en fonction de l'identifiant,
-    du nom du descripteur ou d'un numéro MeSH.
+    Recherche un descripteur MeSH dans un arbre XML selon l'identifiant, le nom ou le numéro MeSH.
 
     Args:
         racine (xml.etree.ElementTree.Element): La racine de l'arbre XML MeSH.
         recherche (str): La valeur à rechercher (identifiant, nom ou numéro MeSH).
-        type_recherche (str): Le type de recherche ('identifiant', 'nom', 'numero_mesh').
+        type_recherche (str): Type de recherche :
+            - 'identifiant' : recherche par identifiant MeSH (ex : D012345)
+            - 'nom' : recherche par nom exact du descripteur (ex : 'Asthma')
+            - 'numero_mesh' : recherche par numéro MeSH exact (ex : 'C08.360.480')
+        ignore_case (bool): Si True, la recherche par nom est insensible à la casse.
+        verbose (bool): Si True, affiche un message si aucun résultat n'est trouvé.
+        format_reponse (str, optionnel): Spécifie le format de réponse désiré parmi :
+            - 'identifiant' : retourne uniquement l'identifiant du descripteur
+            - 'nom' : retourne uniquement le nom du descripteur
+            - 'numero_mesh' : retourne uniquement les numéros MeSH associés
 
     Returns:
-        dict: Contient l'identifiant, le nom et les numéros MeSH associés du descripteur trouvé.
-              Retourne None si aucun descripteur n'est trouvé.
+        dict, str, list, or None:
+            Si format_reponse est spécifié, retourne uniquement la donnée demandée.
+            Sinon, retourne un dictionnaire complet du descripteur.
+            Retourne None si aucune correspondance n'est trouvée.
     """
-    for descripteur in racine.findall('DescriptorRecord'):
-        ui = descripteur.find('DescriptorUI').text
-        nom = descripteur.find('DescriptorName/String').text
-        numeros_mesh = [tree_number.text for tree_number in descripteur.findall('TreeNumberList/TreeNumber')]
 
+    formats_valides = ['identifiant', 'nom', 'numero_mesh', None]
+    types_recherche_valides = ['identifiant', 'nom', 'numero_mesh']
+
+    if format_reponse not in formats_valides:
+        raise ValueError(f"format_reponse invalide : '{format_reponse}'. Choisissez parmi : {formats_valides[:-1]}.")
+
+    if type_recherche not in types_recherche_valides:
+        raise ValueError(f"type_recherche invalide : '{type_recherche}'. Choisissez parmi : {types_recherche_valides}.")
+
+    for descripteur in racine.findall('DescriptorRecord'):
+        ui = descripteur.findtext('DescriptorUI')
+        nom = descripteur.findtext('DescriptorName/String')
+        numero_mesh = [tree_number.text for tree_number in descripteur.findall('TreeNumberList/TreeNumber')]
+
+        correspondance = False
         if type_recherche == 'identifiant' and ui == recherche:
-            return {
+            correspondance = True
+        elif type_recherche == 'nom':
+            if (ignore_case and nom.lower() == recherche.lower()) or (not ignore_case and nom == recherche):
+                correspondance = True
+        elif type_recherche == 'numero_mesh' and recherche in numero_mesh:
+            correspondance = True
+
+        if correspondance:
+            reponse_complete = {
                 'identifiant': ui,
                 'nom': nom,
-                'numeros_mesh': numeros_mesh
+                'numero_mesh': numero_mesh
             }
-        elif type_recherche == 'nom' and nom.lower() == recherche.lower():
-            return {
-                'identifiant': ui,
-                'nom': nom,
-                'numeros_mesh': numeros_mesh
-            }
-        elif type_recherche == 'numero_mesh' and recherche in numeros_mesh:
-            return {
-                'identifiant': ui,
-                'nom': nom,
-                'numeros_mesh': numeros_mesh
-            }
+            return reponse_complete if format_reponse is None else reponse_complete[format_reponse]
+
+    if verbose:
+        print(f"Aucun descripteur trouvé pour '{recherche}' avec type '{type_recherche}'.")
 
     return None
 
 
-def resultats_descripteur(resultat):
+
+def chercher_descriptor_par_numero(racine, numero):
+        for descripteur in racine.findall('DescriptorRecord'):
+            tree_numbers = descripteur.findall('TreeNumberList/TreeNumber')
+            for number in tree_numbers:
+                if number.text == numero:
+                    return descripteur.find('DescriptorName/String').text
+        return None
+
+
+def categorie_haute(racine, tree_number, level=None):
     """
-    Affiche les informations d'un descripteur MeSH.
+    Recherche et retourne la catégorie de plus haut niveau associée à un numéro MeSH donné.
 
     Args:
-        resultat (dict): Dictionnaire contenant les informations du descripteur.
+        racine: L'élément racine de l'arbre XML MeSH chargé.
+        tree_number (str): Le numéro MeSH à rechercher (par ex. "C08.381.746").
+        level (int, optionnel): Niveau désiré dans la hiérarchie MeSH (0 correspond au niveau lettre).
+
+    Returns:
+        str or None: La catégorie trouvée ou None si aucune correspondance.
     """
-    if resultat:
-        print(f"Identifiant : {resultat['identifiant']}")
-        print(f"Nom du descripteur : {resultat['nom']}")
-        if resultat['numeros_mesh']:
-            print("Numéros MeSH associés :")
-            for numero in resultat['numeros_mesh']:
-                print(f" - {numero}")
-        else:
-            print("Aucun numéro MeSH associé trouvé.")
-    else:
-        print("Descripteur non trouvé.")
 
+    categories_lettres = {
+        "A": "Anatomy",
+        "B": "Organisms",
+        "C": "Diseases",
+        "D": "Chemicals and Drugs",
+        "E": "Analytical, Diagnostic and Therapeutic Techniques, and Equipment",
+        "F": "Psychiatry and Psychology",
+        "G": "Phenomena and Processes",
+        "H": "Disciplines and Occupations",
+        "I": "Anthropology, Education, Sociology, and Social Phenomena",
+        "J": "Technology, Industry, and Agriculture",
+        "K": "Humanities",
+        "L": "Information Science",
+        "M": "Named Groups",
+        "N": "Health Care",
+        "V": "Publication Characteristics",
+        "Z": "Geographicals"
+    }
 
+    niveaux = tree_number.split('.')
+    niveau_max = len(niveaux)
 
-def categorie_haute(tree_number, racine):
-    """
-    Recherche et retourne la catégorie de plus haut niveau associée à un numéro MeSH.
+    if level is None:
+        level = niveau_max
 
-    Args:
-    - tree_number (str): Le numéro MeSH à rechercher (par ex. "C10").
-    - racine: L'élément racine de l'arbre XML chargé.
+    if level == 0 or (len(tree_number) == 1 and level is None):
+        return categories_lettres.get(tree_number[0].upper())
 
-    Retourne:
-    - La catégorie la plus haute (str) ou None si aucune correspondance n'est trouvée.
-    """
-    for descripteur in racine.findall('DescriptorRecord'):
-        tree_numbers = descripteur.findall('TreeNumberList/TreeNumber')
-        for number in tree_numbers:
-            if number.text == tree_number:  # Recherche exacte du numéro
-                return descripteur.find('DescriptorName/String').text
+    if level > niveau_max:
+        print(f"Le niveau spécifié ({level}) est trop élevé. Le niveau maximal possible pour '{tree_number}' est {niveau_max}.")
+        return None
 
-    print(f"Aucune catégorie trouvée pour le numéro {tree_number}.")
-    return None
+    numero_recherche = '.'.join(niveaux[:level])
+    descriptor = chercher_descriptor_par_numero(racine, numero_recherche)
+
+    if descriptor is None:
+        print(f"Aucune catégorie trouvée pour le numéro {numero_recherche} au niveau {level}.")
+
+    return descriptor
+
 
 
 def distance_categorie(maladie1, maladie2, racine):
