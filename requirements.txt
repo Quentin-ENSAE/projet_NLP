@@ -2,3 +2,8 @@ pandas
 numpy
 scikit-learn
 pytest
+
+# Analyse_TF-IDF
+nltk
+spacy
+wordcloud
