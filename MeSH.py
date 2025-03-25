@@ -239,3 +239,34 @@ def ancetre_commun(tree1, tree2):
             break
 
     return '.'.join(ancetre) if ancetre else None
+
+
+"""VERSION CACHED"""
+
+from functools import lru_cache
+
+@lru_cache(maxsize=None)
+def rechercher_descripteur_cached(terme, racine):
+    return MeSH.recherche_descripteur(racine, terme, format_reponse='numero_mesh')
+
+
+def extraire_codes_disease_C_cached(dict_mesh_ligne, racine):
+    """
+    Version optimisée avec cache + rapide + propre.
+    """
+    codes = set()
+
+    if not isinstance(dict_mesh_ligne, dict):
+        return []
+
+    for termes in dict_mesh_ligne.values():
+        for terme in termes:
+            list_mesh = rechercher_descripteur_cached(terme, racine)
+            if list_mesh:
+                for item in list_mesh:
+                    if item.startswith("C") and len(item) > 2:
+                        code = item[1:3]
+                        if code.isdigit():
+                            codes.add(code)
+
+    return sorted(codes)
