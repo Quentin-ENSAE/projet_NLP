@@ -1,23 +1,37 @@
 import numpy as np
+from typing import List, Optional, Union
 
-def vectorizer(indices_positifs, taille_vecteur=26):
+def vectorizer(indices_positifs: Union[List[int], List[str], None], taille_vecteur: int = 26) -> np.ndarray:
     """
-    Crée un vecteur binaire avec des 1 aux indices spécifiés et 0 ailleurs.
-    Retourne un vecteur de zéros si la liste d'entrée est vide.
+    Crée un vecteur booléen avec True aux indices spécifiés (1-based), False ailleurs.
 
     Parameters:
-    - indices_positifs (list[int]): Liste des indices à mettre à 1 (indices de 1 à taille_vecteur).
-    - taille_vecteur (int): Taille du vecteur résultat (défaut=26).
+    ----------
+    indices_positifs : list[int | str] | None
+        Liste des indices (1-based) à activer. Peut contenir des entiers ou chaînes.
+    taille_vecteur : int, default=26
+        Taille du vecteur de sortie.
 
     Returns:
-    - numpy.ndarray : vecteur binaire.
+    -------
+    np.ndarray[bool]
+        Vecteur booléen de longueur `taille_vecteur`.
+        Tous les indices sont à False si la liste est vide ou None.
     """
-    indices_positifs = list(map(int, indices_positifs))
-    vecteur_binaire = np.zeros(taille_vecteur, dtype=int)
+    # Si la liste est vide ou None → vecteur False
+    if not indices_positifs:
+        return np.zeros(taille_vecteur, dtype=bool)
 
-    if indices_positifs:
-        if not all(1 <= idx <= taille_vecteur for idx in indices_positifs):
-            raise ValueError(f"Tous les indices doivent être compris entre 1 et {taille_vecteur}.")
-        vecteur_binaire[np.array(indices_positifs) - 1] = 1
+    # Conversion en entiers et vérification de validité
+    try:
+        indices_positifs = list(map(int, indices_positifs))
+    except ValueError:
+        raise ValueError("Tous les éléments de `indices_positifs` doivent être convertibles en int.")
 
-    return vecteur_binaire
+    if not all(1 <= idx <= taille_vecteur for idx in indices_positifs):
+        raise ValueError(f"Tous les indices doivent être compris entre 1 et {taille_vecteur} inclus.")
+
+    vecteur = np.zeros(taille_vecteur, dtype=bool)
+    vecteur[np.array(indices_positifs, dtype=int) - 1] = True
+
+    return vecteur
