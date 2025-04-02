@@ -12,5 +12,6 @@ https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.4/en_core_sci_s
 wordcloud
 
 # BERT
-transformers datasets scikit-learn
-transformers[torch]
+transformers 
+accelerate>=0.26.0
+datasets
