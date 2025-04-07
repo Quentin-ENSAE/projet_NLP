@@ -4,6 +4,7 @@ scikit-learn
 pytest
 
 # Analyse_TF-IDF
+tabulate
 nltk
 spacy
 scispacy
