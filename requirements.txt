@@ -3,6 +3,9 @@ numpy
 scikit-learn
 pytest
 
+#s3fs
+fsspec==2025.2.0
+
 # Analyse_TF-IDF
 tabulate
 nltk
@@ -22,6 +25,9 @@ tabulate
 python-dotenv 
 google.genai
 requests
+
+# GOOGLE TRANSLATE
+google-cloud-translate
 
 # Affichage barre et widget
 notebook

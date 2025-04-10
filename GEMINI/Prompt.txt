@@ -39,10 +39,7 @@ ________________________________________________________________________________
 
 Exemple 1
 
-Mesh term : ['C04 – neoplasms',
- 'C08 – respiratory tract diseases',
- 'C12 – urologic and male genital diseases',
- 'C14 – cardiovascular diseases']
+Mesh term : ['C04 – neoplasms', 'C08 – respiratory tract diseases', 'C12 – urologic and male genital diseases', 'C14 – cardiovascular diseases']
 
 Cas clinique associé (exepected output) : 
 A 42-year-old, non-smoking, virgin woman presented to our institution with complaints of dyspnea and pleuritic chest pain since 2 days ago along with 2-month transient spotting. She had a history of leiomyoma since 5 months ago, and was hospitalized due to vaginal bleeding, and had been undergone therapy by a gonadotropin-releasing hormone (GnRH) agonist and medroxyprogesterone acetate, intramuscularly. To control her anemia, she was given oral ferrous sulfate. There was no relevant familial history of the same condition. On physical examination, she was anxious and tachypneic on admission, with body mass index of 24.7 kg/m2, body temperature 37 C, blood pressure 100/70 mmHg, heart rate 120 beats per min, respiratory rate of 24 breaths per min, and 96% oxygen saturation while breathing room air. Other findings included regular heart beat with a 2/6 systolic murmur in the left sternal border, clear lung sound, and a non-tender abdomen with a 20-week size uterus. There was no swelling in her lower limbs.
@@ -64,11 +61,11 @@ Elder brother: Dissection of the thoracic aorta
 Father's family: Rupture of the abdominal aorta, sudden death
 Although the symptoms temporarily improved in response to intermittent manual compression of the carotid artery, they became more severe again. Because of the development of higher function disorders, including aphasia and agnosia, associated with marked cortical reflux within the cranium, endovascular treatment (TVE) was performed under general anesthesia. A direct CCF from the vicinity of the left internal carotid artery (ICA) at the C3-4 level was confirmed by digital subtraction angiography (DSA). Marked retrograde flow into the intracranial veins was observed, and treatment was performed as described below.
 
-—————
+__________
 
 Exemple 3
 
-Mesh term : ['C10 – nervous system diseases', 'C14 – cardiovascular diseases', 'C15 – hemic and lymphatic diseases', 'C16 – congenital, hereditary, and neonatal diseases and abnormalities', 'C17 – skin and connective tissue diseases', 'C23 – pathological conditions, signs and symptoms']
+Mesh term : ['C04 – neoplasms', 'C08 – respiratory tract diseases', 'C10 – nervous system diseases', 'C23 – pathological conditions, signs and symptoms']
 
 Cas clinique associé (exepected output) : 
 The case reports of patients with brain metastases secondary to NSCLC treated with gefitinib as part of the compassionate-use programme have recently been reported as published case studies, at the World Conference on Lung Cancer 2003, at the American Society of Clinical Oncology 2003 conference and at the 'Iressa' Clinical Experience (ICE) meeting (Awada, ICE abs; Cappuzzo [a & b], ICE abs; Dieriks, ICE abs; Stein, ICE abs; de la Cruz [a & b], ICE abs; Maione, ICE abs; Martinez, ICE abs; Diaz-Canton, ICE abs; van der Kamp, ICE abs; van Zandwijk [b], ICE abs; Petruzelka [a], ICE abs; Azemar, ICE abs; Roggero, ICE abs; Kowalski, ICE abs; Martin-Algarra, ICE abs; Pavlakis, ICE abs). (See appendix for ICE abstracts). Together, these case reports suggest that gefitinib has activity in NSCLC brain metastases. The results of published case series are shown in Table 1 .
