@@ -20,5 +20,11 @@ tabulate
 
 # GEMINI
 python-dotenv 
-google-generativeai
+google.genai
 requests
+
+# Affichage barre et widget
+notebook
+ipywidgets
+jupyterlab_widgets
+tqdm
