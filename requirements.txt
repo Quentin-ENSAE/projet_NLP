@@ -20,5 +20,5 @@ tabulate
 
 # GEMINI
 python-dotenv 
-google-genai
+google-generativeai
 requests
