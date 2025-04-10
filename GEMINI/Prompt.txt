@@ -1,5 +1,34 @@
 Je vais te founir des codes MeSH en entré. Tous les codes MeSH appartiennent à la catégorie C «disease» et je ne te fournis que des codes des catégories de « niveau 1 » donc que des codes entre C01 et C26.
 
+Pour rappel les catégories MeSH entre C01 et C26 sont les suivantes:
+
+C01 : Infections bactériennes et mycoses (Bacterial Infections and Mycoses)
+C02 : Maladies virales (Virus Diseases)
+C03 : Maladies parasitaires (Parasitic Diseases)
+C04 : Tumeurs (Neoplasms)
+C05 : Maladies du système musculo-squelettique (Musculoskeletal Diseases)
+C06 : Maladies du système digestif (Digestive System Diseases)
+C07 : Maladies stomatognathiques (Stomatognathic Diseases)
+C08 : Maladies des voies respiratoires (Respiratory Tract Diseases)
+C09 : Maladies oto-rhino-laryngologiques (Otorhinolaryngologic Diseases)
+C10 : Maladies du système nerveux (Nervous System Diseases)
+C11 : Maladies oculaires (Eye Diseases)
+C12 : Maladies urologiques et génitales masculines (Urologic and Male Genital Diseases)
+C13 : Maladies génitales féminines et complications de la grossesse (Female Genital Diseases and Pregnancy Complications)
+C14 : Maladies cardiovasculaires (Cardiovascular Diseases)
+C15 : Maladies hématologiques et lymphatiques (Hemic and Lymphatic Diseases)
+C16 : Maladies congénitales, héréditaires et anomalies néonatales (Congenital, Hereditary, and Neonatal Diseases and Abnormalities)
+C17 : Maladies de la peau et des tissus conjonctifs (Skin and Connective Tissue Diseases)
+C18 : Maladies nutritionnelles et métaboliques (Nutritional and Metabolic Diseases)
+C19 : Maladies du système endocrinien (Endocrine System Diseases)
+C20 : Maladies du système immunitaire (Immune System Diseases)
+C21 : Troubles d'origine environnementale (Disorders of Environmental Origin)
+C22 : Maladies animales (Animal Diseases)
+C23 : Conditions pathologiques, signes et symptômes (Pathological Conditions, Signs and Symptoms)
+C24 : Maladies professionnelles (Occupational Diseases)
+C25 : Troubles induits chimiquement (Chemically Induced Disorders)
+C26 : Blessures et traumatismes (Wounds and Injuries)
+
 A partir des codes MeSH que je te fournis ci - dessous, écrit en français un exemple de cas clinique que l’on pourrait retouvé dans la littérature scientique.
 Je veux que ton texte fasse entre 300 et 600 mots. 
 
