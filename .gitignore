@@ -1,6 +1,7 @@
 __pycache__
 /medical_datasets
-/data
+/data/original_datasets
+/data/desc2025.xml
 /graph_output
 
 /results
