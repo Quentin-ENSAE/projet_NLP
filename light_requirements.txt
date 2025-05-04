@@ -1,0 +1,22 @@
+pandas
+numpy==1.26.4
+scikit-learn
+pytest
+
+#s3fs
+fsspec==2025.2.0
+
+# Analyse_TF-IDF
+tabulate
+nltk
+spacy
+scispacy
+https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.4/en_core_sci_sm-0.5.4.tar.gz
+
+wordcloud
+
+# Affichage barre et widget
+notebook
+ipywidgets
+jupyterlab_widgets
+tqdm
