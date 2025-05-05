@@ -14,7 +14,7 @@ The objective of my (mini) project is to predict diagnosis in MeSH standards usi
   Notebook taken from the [MultiCaRe GitHub repository](https://github.com/mauro-nievoff/MultiCaRe_Dataset.git). Demonstrates how to load and explore the MultiCaRe dataset.
 
 - **`prétraitement`**  
-  Merges the dataset of clinical cases with MeSH term annotations and applies various filters to extract the 10,000 final clinical cases used for training.
+  Merges the dataset of clinical cases with MeSH term annotations and applies various filters to extract the 10,000 final clinical cases in english used for training (8574 cases), validation (1072) & testing (1072).
 
 - **`Encoding_MeSH_terms`**  
   Encodes MeSH terms into broader chapter-level categories (C01–C26).
@@ -65,5 +65,7 @@ The full MeSH classification tree is available in `.xml` format from the Nationa
 
 ## Références: 
 **Dataset URL** : https://zenodo.org/records/14994046 
+
 **Data paper about dataset creation** : https://www.sciencedirect.com/science/article/pii/S2352340923010351?via%3Dihub
-**Scientific paper using Instruct GPT3 to retrive information from medical case reports** : https://www.sciencedirect.com/science/article/pii/S0169260724003195
+
+**Scientific paper with reference data and state-of-the-art results** : [https://www.sciencedirect.com/science/article/pii/S0169260724003195](https://www.sciencedirect.com/science/article/abs/pii/S0933365722000768?via%3Dihub)
