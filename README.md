@@ -67,33 +67,6 @@ Our approach explores and compares classical NLP techniques and modern transform
 
 ### 📚 References
 
-MeSH Classification Tree
-The full MeSH hierarchical structure is available in .xml format from the U.S. National Library of Medicine.
-🔗 Download desc2025.xml
-
-
-
-- MeSH Classification Tree
-The full MeSH hierarchical structure is available in .xml format from the U.S. National Library of Medicine.
-🔗 [Download desc2025.xml](https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2025.xml)
-
-- MultiCaRe Dataset
-A multimodal dataset of 75,000+ clinical case reports including metadata, images, and MeSH annotations.
-🔗 [Zenodo Record](https://zenodo.org/records/14994046)
-
-- Dataset Description Paper
-Dataset of clinical cases, images, image labels and captions from open access case reports from PubMed Central (1990–2023)
-Data in Brief, 2024
-🔗 [Read on ScienceDirect](https://www.sciencedirect.com/science/article/pii/S2352340923010351?via%3Dihub)
-
-- Reference Scientific Paper
-Multilabel classification of medical concepts for patient clinical profile identification — includes benchmark methods and multilingual evaluation.
-Artificial Intelligence in Medicine, 2022
-🔗 [Read on ScienceDirect](https://www.sciencedirect.com/science/article/abs/pii/S0933365722000768?via%3Dihub)
-
-
-### 📚 References
-
 - **MeSH Classification Tree**  
   The full MeSH hierarchical structure is available in `.xml` format from the U.S. National Library of Medicine.  
   🔗 [Download desc2025.xml](https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2025.xml)
