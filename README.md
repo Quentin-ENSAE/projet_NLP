@@ -1,4 +1,4 @@
-# Projet_NLP - Projet NLP — Multilingual Classification of Clinical Case Reports Using MeSH Categories
+# Mini Projet NLP — Multilingual Classification of Clinical Case Reports
 
 ## 📑 Table of Contents
 
@@ -51,7 +51,7 @@ Our approach explores and compares classical NLP techniques and modern transform
 - **`Translation`**  
   Selects English clinical cases from the test set and translates them into French for use as a French test set.
 
-### 📁 Other Relevant Files
+## 📁 Other Relevant Files
 
 - **Rapport_Mini Projet NLP_Quentin MARRET.pdf**
   Final report presenting the full methodology, experimental setup, and analysis of results.
@@ -65,7 +65,7 @@ Our approach explores and compares classical NLP techniques and modern transform
 - **`data/`**  
   Contains preprocessed train and test datasets used in all model training pipelines.
 
-### 📚 References
+## 📚 References
 
 - **MeSH Classification Tree**  
   The full MeSH hierarchical structure is available in `.xml` format from the U.S. National Library of Medicine.  
