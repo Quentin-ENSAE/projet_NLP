@@ -17,9 +17,9 @@ Our approach explores and compares classical NLP techniques and modern transform
 ### 📦 Preprocessing Notebooks
 
 - **`Demo_dataset_creation`**  
-  Demonstrates how to load and explore the MultiCaRe dataset.Notebook adapted from the [MultiCaRe GitHub repository](https://github.com/mauro-nievoff/MultiCaRe_Dataset.git). Illustrates how to load and perform an initial exploration of the MultiCaRe dataset.
+  Demonstrates how to load and perform an initial exploration of the MultiCaRe dataset. This notebook is adapted from the MultiCaRe GitHub repository.
 
-- **`prétraitement`**  
+- **`Pre_treatment`**  
   Merges the clinical case data with MeSH term annotations and applies multiple filters to extract the final dataset of 10,000 English clinical cases, split into training (8,574), validation (1,072), and test (1,072) sets.
 
 - **`Encoding_MeSH_terms`**  
@@ -27,7 +27,7 @@ Our approach explores and compares classical NLP techniques and modern transform
 
 ### 📊 Analysis Notebooks
 
-- **`Analyse_descriptive`**  
+- **`Descriptive analysis`**  
   Performs descriptive analysis on the filtered dataset.
 
 - **`Naives_classifier_en`**  
