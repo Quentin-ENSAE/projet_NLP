@@ -1,4 +1,4 @@
-# Mini Projet NLP — Multilingual Classification of Clinical Case Reports
+# Projet NLP — Multilingual Classification of Clinical Case Reports
 
 ## 📑 Table of Contents
 
